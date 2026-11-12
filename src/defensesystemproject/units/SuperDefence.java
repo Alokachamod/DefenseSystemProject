@@ -4,12 +4,25 @@
  */
 package defensesystemproject.units;
 
+
+
+    
 /**
  *
  * @author aloka
  */
 public class SuperDefence extends javax.swing.JFrame {
+    
+    protected int ammoCount;
+    protected int soldierCount;
 
+    public void setAmmoCount(int ammoCount) {
+        this.ammoCount = ammoCount;
+    }
+
+    public void setSoldierCount(int soldierCount) {
+        this.soldierCount = soldierCount;
+    }
     /**
      * Creates new form SuperDefence
      */

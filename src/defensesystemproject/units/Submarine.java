@@ -8,7 +8,7 @@ package defensesystemproject.units;
  *
  * @author aloka
  */
-public class Submarine extends javax.swing.JFrame {
+public class Submarine extends SuperDefence{
 
     /**
      * Creates new form Submarine
@@ -26,17 +26,31 @@ public class Submarine extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        selectDefence = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jCheckBox1 = new javax.swing.JCheckBox();
+
+        selectDefence.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence" }));
+
+        jButton1.setText("Collect Informations");
+
+        jScrollPane1.setViewportView(jTextPane1);
+
+        jCheckBox1.setText("Area Clear");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 749, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         pack();
@@ -78,5 +92,10 @@ public class Submarine extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JComboBox<String> selectDefence;
     // End of variables declaration//GEN-END:variables
 }

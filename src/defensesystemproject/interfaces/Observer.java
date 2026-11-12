@@ -4,10 +4,14 @@
  */
 package defensesystemproject.interfaces;
 
+import defensesystemproject.enums.Strength;
+
 /**
  *
  * @author aloka
  */
 public interface Observer {
-    
+    void updateArea(boolean isClear);
+    void updateStrength(Strength strength);
+    void receiveMessage(String message);
 }

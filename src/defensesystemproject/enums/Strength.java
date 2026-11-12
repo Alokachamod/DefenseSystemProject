@@ -9,5 +9,5 @@ package defensesystemproject.enums;
  * @author aloka
  */
 public enum Strength {
-    
+    LOW,MEDIUM , HIGH , STRONG , CLOSED
 }

@@ -8,7 +8,7 @@ package defensesystemproject.units;
  *
  * @author aloka
  */
-public class Tank extends javax.swing.JFrame {
+public class Tank extends SuperDefence{
 
     /**
      * Creates new form Tank

@@ -8,7 +8,7 @@ package defensesystemproject.units;
  *
  * @author aloka
  */
-public class Helicopter extends javax.swing.JFrame {
+public class Helicopter extends SuperDefence {
 
     /**
      * Creates new form Helicopter

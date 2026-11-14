@@ -142,8 +142,14 @@
             <Property name="paintTicks" type="boolean" value="true"/>
             <Property name="value" type="int" value="100"/>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSlider2StateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinner3">
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSpinner3StateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="AmmoSpinner">
           <Events>
@@ -180,6 +186,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Redar Operation"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRedarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnMissile">
           <Properties>
@@ -193,11 +202,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Rotate Shooting"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRotateShootActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkPosition">
           <Properties>
             <Property name="text" type="java.lang.String" value="Position"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkPositionActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
@@ -212,9 +227,6 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="txtMsg">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSend">
           <Properties>

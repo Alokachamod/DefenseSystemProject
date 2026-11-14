@@ -54,6 +54,17 @@ public class Tank extends SuperDefence implements Observer {
         jSlider2.setPaintLabels(true);
         jSlider2.setPaintTicks(true);
         jSlider2.setValue(100);
+        jSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider2StateChanged(evt);
+            }
+        });
+
+        jSpinner3.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner3StateChanged(evt);
+            }
+        });
 
         AmmoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -76,6 +87,11 @@ public class Tank extends SuperDefence implements Observer {
         });
 
         btnRedar.setText("Redar Operation");
+        btnRedar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedarActionPerformed(evt);
+            }
+        });
 
         btnMissile.setText("Missile Operation");
         btnMissile.addActionListener(new java.awt.event.ActionListener() {
@@ -85,14 +101,22 @@ public class Tank extends SuperDefence implements Observer {
         });
 
         btnRotateShoot.setText("Rotate Shooting");
+        btnRotateShoot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRotateShootActionPerformed(evt);
+            }
+        });
 
         checkPosition.setText("Position");
+        checkPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPositionActionPerformed(evt);
+            }
+        });
 
         txtPnl.setColumns(20);
         txtPnl.setRows(5);
         jScrollPane1.setViewportView(txtPnl);
-
-        txtMsg.setText("jTextField1");
 
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -203,17 +227,16 @@ public class Tank extends SuperDefence implements Observer {
         }    }//GEN-LAST:event_btnShootActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        if (mainController != null) {
-
+        if (mainController != null && !txtMsg.getText().trim().isEmpty()) {
             mainController.receiveUnitMessage("Tank", txtMsg.getText());
+            txtMsg.setText("");
         }
-        txtMsg.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void AmmoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_AmmoSpinnerStateChanged
-        int currentAmmo = (Integer) AmmoSpinner.getValue();
+        ammoCount = (Integer) AmmoSpinner.getValue();
         if (mainController != null) {
-            mainController.updateGlobalAmmo(currentAmmo);
+            mainController.updateLiveAmmo(ammoCount);
         }
     }//GEN-LAST:event_AmmoSpinnerStateChanged
 
@@ -227,6 +250,41 @@ public class Tank extends SuperDefence implements Observer {
             }
         }
     }//GEN-LAST:event_btnMissileActionPerformed
+
+    private void btnRedarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedarActionPerformed
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Tank", "Radar Operation Activated!");
+        }
+    }//GEN-LAST:event_btnRedarActionPerformed
+
+    private void btnRotateShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRotateShootActionPerformed
+        if (ammoCount >= 3) {
+            ammoCount -= 3;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Tank", "Rotate Shooting! Ammo left: " + ammoCount);
+            }
+        }
+    }//GEN-LAST:event_btnRotateShootActionPerformed
+
+    private void checkPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPositionActionPerformed
+        isPositioned = checkPosition.isSelected();
+    }//GEN-LAST:event_checkPositionActionPerformed
+
+    private void jSlider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider2StateChanged
+        fuelAmount = jSlider2.getValue();
+        if (mainController != null) {
+            mainController.updateLiveFuel(fuelAmount);
+        }
+    }//GEN-LAST:event_jSlider2StateChanged
+
+    private void jSpinner3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner3StateChanged
+        soldierCount = (Integer) jSpinner3.getValue();
+        if (mainController != null) {
+            mainController.updateLiveSoldiers(soldierCount);
+        }
+    }//GEN-LAST:event_jSpinner3StateChanged
 
     /**
      * @param args the command line arguments
@@ -301,9 +359,17 @@ public class Tank extends SuperDefence implements Observer {
 
     @Override
     public void updateStrength(Strength strength) {
-        btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
-        btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
-        btnRotateShoot.setEnabled(strength == Strength.STRONG);
+       if (isPositioned) {
+            btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
+            btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+            btnRedar.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+            btnRotateShoot.setEnabled(strength == Strength.STRONG);
+        } else {
+            btnShoot.setEnabled(false);
+            btnMissile.setEnabled(false);
+            btnRedar.setEnabled(false);
+            btnRotateShoot.setEnabled(false);
+        }
     }
 
     @Override

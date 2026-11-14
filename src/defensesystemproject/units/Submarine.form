@@ -200,6 +200,9 @@
             <Property name="paintTicks" type="boolean" value="true"/>
             <Property name="value" type="int" value="100"/>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerOxigenStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSlider" name="sliderEnergy">
           <Properties>
@@ -210,6 +213,9 @@
             <Property name="paintTicks" type="boolean" value="true"/>
             <Property name="value" type="int" value="100"/>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sliderEnergyStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -230,6 +236,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinner1">
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSpinner1StateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="AmmoSpinner">
           <Events>
@@ -250,6 +259,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Position"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnShoot">
           <Properties>
@@ -263,16 +275,25 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Sonar Operation"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnTomahawk">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tomahawk missile"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTomahawkActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnTrident">
           <Properties>
             <Property name="text" type="java.lang.String" value="Trident -2 missile"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTridentActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
 

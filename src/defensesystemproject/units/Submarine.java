@@ -70,6 +70,11 @@ public class Submarine extends SuperDefence implements Observer {
         spinnerOxigen.setPaintLabels(true);
         spinnerOxigen.setPaintTicks(true);
         spinnerOxigen.setValue(100);
+        spinnerOxigen.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerOxigenStateChanged(evt);
+            }
+        });
 
         sliderEnergy.setMajorTickSpacing(20);
         sliderEnergy.setMinorTickSpacing(10);
@@ -77,6 +82,11 @@ public class Submarine extends SuperDefence implements Observer {
         sliderEnergy.setPaintLabels(true);
         sliderEnergy.setPaintTicks(true);
         sliderEnergy.setValue(100);
+        sliderEnergy.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderEnergyStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Oxigen");
 
@@ -84,6 +94,12 @@ public class Submarine extends SuperDefence implements Observer {
 
         areaStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         areaStatus.setText("Area Not Cleared");
+
+        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner1StateChanged(evt);
+            }
+        });
 
         AmmoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -96,6 +112,11 @@ public class Submarine extends SuperDefence implements Observer {
         jLabel5.setText("Ammo Count");
 
         jCheckBox2.setText("Position");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
 
         btnShoot.setText("Shoot");
         btnShoot.addActionListener(new java.awt.event.ActionListener() {
@@ -105,10 +126,25 @@ public class Submarine extends SuperDefence implements Observer {
         });
 
         jButton3.setText("Sonar Operation");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         btnTomahawk.setText("Tomahawk missile");
+        btnTomahawk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTomahawkActionPerformed(evt);
+            }
+        });
 
         btnTrident.setText("Trident -2 missile");
+        btnTrident.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTridentActionPerformed(evt);
+            }
+        });
 
         txtPnl.setColumns(20);
         txtPnl.setRows(5);
@@ -228,25 +264,82 @@ public class Submarine extends SuperDefence implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
-        ammoCount--;
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Submarine", "Shooting! Ammo left: " + ammoCount);
+        if (ammoCount > 0) {
+            ammoCount--;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Submarine", "Shooting! Ammo left: " + ammoCount);
+            }
         }
     }//GEN-LAST:event_btnShootActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        if (mainController != null) {
+        if (mainController != null && !txtMsg.getText().trim().isEmpty()) {
             mainController.receiveUnitMessage("Submarine", txtMsg.getText());
+            txtMsg.setText("");
         }
-        txtMsg.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void AmmoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_AmmoSpinnerStateChanged
-        int currentAmmo = (Integer) AmmoSpinner.getValue();
+        ammoCount = (Integer) AmmoSpinner.getValue();
         if (mainController != null) {
-            mainController.updateGlobalAmmo(currentAmmo);
+            mainController.updateLiveAmmo(ammoCount);
         }
     }//GEN-LAST:event_AmmoSpinnerStateChanged
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Submarine", "Sonar Operation Activated!");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnTomahawkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTomahawkActionPerformed
+        if (ammoCount >= 2) {
+            ammoCount -= 2;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Submarine", "Tomahawk Missile Launched! Ammo left: " + ammoCount);
+            }
+        }
+    }//GEN-LAST:event_btnTomahawkActionPerformed
+
+    private void btnTridentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTridentActionPerformed
+        if (ammoCount >= 3) {
+            ammoCount -= 3;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Submarine", "Trident-2 Missile Launched! Ammo left: " + ammoCount);
+            }
+        }
+    }//GEN-LAST:event_btnTridentActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        isPositioned = jCheckBox2.isSelected();
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void sliderEnergyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderEnergyStateChanged
+        fuelAmount = sliderEnergy.getValue();
+        if (mainController != null) {
+            mainController.updateLiveFuel(fuelAmount);
+        }
+    }//GEN-LAST:event_sliderEnergyStateChanged
+
+    private void spinnerOxigenStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerOxigenStateChanged
+        oxygenAmount = spinnerOxigen.getValue();
+        if (oxygenAmount < 20 && mainController != null) {
+            mainController.receiveUnitMessage("Submarine", "WARNING: Low Oxygen (" + oxygenAmount + "%)");
+        }
+    }//GEN-LAST:event_spinnerOxigenStateChanged
+
+    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+        soldierCount = (Integer) jSpinner1.getValue();
+        if (mainController != null) {
+            mainController.updateLiveSoldiers(soldierCount);
+        }
+    }//GEN-LAST:event_jSpinner1StateChanged
 
     /**
      * @param args the command line arguments
@@ -321,9 +414,17 @@ public class Submarine extends SuperDefence implements Observer {
 
     @Override
     public void updateStrength(Strength strength) {
-        btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
-        btnTomahawk.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
-        btnTrident.setEnabled(strength == Strength.STRONG);
+        if (isPositioned) {
+            btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
+            jButton3.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+            btnTomahawk.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+            btnTrident.setEnabled(strength == Strength.STRONG);
+        } else {
+            btnShoot.setEnabled(false);
+            jButton3.setEnabled(false);
+            btnTomahawk.setEnabled(false);
+            btnTrident.setEnabled(false);
+        }
     }
 
     @Override

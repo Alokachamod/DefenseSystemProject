@@ -51,6 +51,7 @@ public class Helicopter extends SuperDefence implements Observer {
         jSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
+        jSlider1.setValue(100);
 
         jLabel1.setText("Soldier Count");
 

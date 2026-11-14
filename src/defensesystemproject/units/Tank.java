@@ -53,6 +53,7 @@ public class Tank extends SuperDefence implements Observer {
         jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
         jSlider2.setPaintLabels(true);
         jSlider2.setPaintTicks(true);
+        jSlider2.setValue(100);
 
         jLabel4.setText("Soldier Count");
 
@@ -176,14 +177,15 @@ public class Tank extends SuperDefence implements Observer {
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
         ammoCount--;
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
+        if (mainController != null){
+            mainController.receiveUnitMessage("Tank", "Shooting! Ammo left: " + ammoCount);
+        
         }    }//GEN-LAST:event_btnShootActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+/**
+ * @param args the command line arguments
+ */
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -194,16 +196,28 @@ public class Tank extends SuperDefence implements Observer {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Tank.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Tank.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Tank.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Tank.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Tank.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Tank.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Tank.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Tank.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -235,7 +249,7 @@ public class Tank extends SuperDefence implements Observer {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void updateArea(boolean isClear) {
+public void updateArea(boolean isClear) {
         if (isClear) {
             areaStatus.setText("Area Cleared");
         } else {
@@ -244,14 +258,14 @@ public class Tank extends SuperDefence implements Observer {
     }
 
     @Override
-    public void updateStrength(Strength strength) {
+public void updateStrength(Strength strength) {
         btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
         btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
         btnRotateShoot.setEnabled(strength == Strength.STRONG);
     }
 
     @Override
-    public void receiveMessage(String message) {
+public void receiveMessage(String message) {
         txtPnl.append("Command: " + message + "\n");
     }
 

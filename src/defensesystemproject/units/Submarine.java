@@ -47,7 +47,7 @@ public class Submarine extends SuperDefence implements Observer {
         jCheckBox2 = new javax.swing.JCheckBox();
         btnShoot = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnTomahawk = new javax.swing.JButton();
         btnTrident = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtPnl = new javax.swing.JTextArea();
@@ -69,12 +69,14 @@ public class Submarine extends SuperDefence implements Observer {
         spinnerOxigen.setOrientation(javax.swing.JSlider.VERTICAL);
         spinnerOxigen.setPaintLabels(true);
         spinnerOxigen.setPaintTicks(true);
+        spinnerOxigen.setValue(100);
 
         sliderEnergy.setMajorTickSpacing(20);
         sliderEnergy.setMinorTickSpacing(10);
         sliderEnergy.setOrientation(javax.swing.JSlider.VERTICAL);
         sliderEnergy.setPaintLabels(true);
         sliderEnergy.setPaintTicks(true);
+        sliderEnergy.setValue(100);
 
         jLabel1.setText("Oxigen");
 
@@ -90,10 +92,15 @@ public class Submarine extends SuperDefence implements Observer {
         jCheckBox2.setText("Position");
 
         btnShoot.setText("Shoot");
+        btnShoot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShootActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Sonar Operation");
 
-        jButton4.setText("Tomahawk missile");
+        btnTomahawk.setText("Tomahawk missile");
 
         btnTrident.setText("Trident -2 missile");
 
@@ -128,7 +135,7 @@ public class Submarine extends SuperDefence implements Observer {
                                 .addGap(18, 18, 18)
                                 .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTomahawk, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTrident, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -183,7 +190,7 @@ public class Submarine extends SuperDefence implements Observer {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton4)
+                                    .addComponent(btnTomahawk)
                                     .addComponent(btnTrident))))
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,6 +215,13 @@ public class Submarine extends SuperDefence implements Observer {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
+        ammoCount--;
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Submarine", "Shooting! Ammo left: " + ammoCount);
+        }
+    }//GEN-LAST:event_btnShootActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,10 +262,10 @@ public class Submarine extends SuperDefence implements Observer {
     private javax.swing.JLabel areaStatus;
     private javax.swing.JButton btnSend;
     private javax.swing.JButton btnShoot;
+    private javax.swing.JButton btnTomahawk;
     private javax.swing.JButton btnTrident;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
@@ -283,16 +297,13 @@ public class Submarine extends SuperDefence implements Observer {
     @Override
     public void updateStrength(Strength strength) {
         btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
-        btnTrident.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+        btnTomahawk.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
         btnTrident.setEnabled(strength == Strength.STRONG);
     }
 
     @Override
     public void receiveMessage(String message) {
-        ammoCount--;
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
-        }
+        txtPnl.append("Command: " + message + "\n");
     }
-    
+
 }

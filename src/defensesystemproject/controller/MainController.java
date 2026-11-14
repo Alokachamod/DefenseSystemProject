@@ -70,6 +70,7 @@ public class MainController extends javax.swing.JFrame {
         positionSlider.setMinorTickSpacing(10);
         positionSlider.setPaintLabels(true);
         positionSlider.setPaintTicks(true);
+        positionSlider.setValue(0);
         positionSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 positionSliderStateChanged(evt);

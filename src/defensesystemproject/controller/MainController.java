@@ -4,17 +4,29 @@
  */
 package defensesystemproject.controller;
 
+import defensesystemproject.enums.Strength;
+import defensesystemproject.interfaces.Observer;
+
 /**
  *
  * @author aloka
  */
 public class MainController extends javax.swing.JFrame {
 
+    private  Observer[] observers = new Observer[3]; 
+    private int observerCount = 0;
     /**
      * Creates new form MainController
      */
     public MainController() {
         initComponents();
+    }
+    
+    public void addObserver(Observer observer) {
+        if (observerCount < observers.length) {
+            observers[observerCount] = observer;
+            observerCount++;
+        }
     }
 
     /**
@@ -27,26 +39,26 @@ public class MainController extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSend = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        positionSlider = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        selectDefence1 = new javax.swing.JComboBox<>();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        selectorDefense = new javax.swing.JComboBox<>();
+        sendPrivate = new javax.swing.JCheckBox();
+        btnCollectInfo = new javax.swing.JButton();
+        chkArea = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        textAreaTank = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Send");
+        btnSend.setText("Send");
 
         jLabel1.setText("Soldier Count");
 
@@ -54,27 +66,38 @@ public class MainController extends javax.swing.JFrame {
 
         jLabel3.setText("Ammo Amount");
 
-        jSlider1.setMajorTickSpacing(10);
-        jSlider1.setMinorTickSpacing(10);
-        jSlider1.setPaintLabels(true);
+        positionSlider.setMajorTickSpacing(20);
+        positionSlider.setMinorTickSpacing(10);
+        positionSlider.setPaintLabels(true);
+        positionSlider.setPaintTicks(true);
+        positionSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                positionSliderStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Position");
 
-        selectDefence1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence" }));
+        selectorDefense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence", "Helicopter", "Tank", "Submarine", " " }));
 
-        jCheckBox3.setText("Send Private");
+        sendPrivate.setText("Send Private");
 
-        jButton2.setText("Collect Informations");
+        btnCollectInfo.setText("Collect Informations");
 
-        jCheckBox2.setText("Area Clear");
+        chkArea.setText("Area Clear");
+        chkArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAreaActionPerformed(evt);
+            }
+        });
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane3.setViewportView(jTextArea2);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane4.setViewportView(jTextArea3);
+        textAreaTank.setColumns(20);
+        textAreaTank.setRows(5);
+        jScrollPane4.setViewportView(textAreaTank);
 
         jTextArea4.setColumns(20);
         jTextArea4.setRows(5);
@@ -97,7 +120,7 @@ public class MainController extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox3))
+                            .addComponent(sendPrivate))
                         .addGap(24, 24, 24))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -106,16 +129,16 @@ public class MainController extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(selectDefence1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(selectorDefense, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(62, 62, 62)
-                                .addComponent(jButton2))
-                            .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnCollectInfo))
+                            .addComponent(positionSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(143, 143, 143)
-                        .addComponent(jCheckBox2)
+                        .addComponent(chkArea)
                         .addGap(45, 45, 45))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnSend)
                 .addGap(102, 102, 102))
         );
         jPanel1Layout.setVerticalGroup(
@@ -123,28 +146,27 @@ public class MainController extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(selectDefence1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(chkArea)
+                    .addComponent(selectorDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCollectInfo))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox3)
+                            .addComponent(sendPrivate)
                             .addComponent(jLabel3)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(38, 38, 38)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnSend)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(positionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,6 +190,37 @@ public class MainController extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAreaActionPerformed
+       boolean isClear = chkArea.isSelected();
+        for (int i = 0; i < observerCount; i++) {
+            observers[i].updateArea(isClear);
+        }
+    }//GEN-LAST:event_chkAreaActionPerformed
+
+    private void positionSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_positionSliderStateChanged
+        int pos = positionSlider.getValue();
+        Strength currentStrength;
+
+        
+        if (pos < 20) {
+            currentStrength = Strength.LOW;
+        } else if (pos < 40) {
+            currentStrength = Strength.MEDIUM;
+        } else if (pos < 80) {
+            currentStrength = Strength.HIGH;
+        } else {
+            currentStrength = Strength.STRONG;
+        }
+
+        for (int i = 0; i < observerCount; i++) {
+            observers[i].updateStrength(currentStrength);
+        }
+    
+    }//GEN-LAST:event_positionSliderStateChanged
+
+    public void receiveUnitMessage(String unitName, String message) {
+        textAreaTank.append(unitName + ": " + message + "\n");
+    }
     /**
      * @param args the command line arguments
      */
@@ -204,10 +257,9 @@ public class MainController extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JButton btnCollectInfo;
+    private javax.swing.JButton btnSend;
+    private javax.swing.JCheckBox chkArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -216,10 +268,11 @@ public class MainController extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JComboBox<String> selectDefence1;
+    private javax.swing.JSlider positionSlider;
+    private javax.swing.JComboBox<String> selectorDefense;
+    private javax.swing.JCheckBox sendPrivate;
+    private javax.swing.JTextArea textAreaTank;
     // End of variables declaration//GEN-END:variables
 }

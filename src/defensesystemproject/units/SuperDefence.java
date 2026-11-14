@@ -4,6 +4,8 @@
  */
 package defensesystemproject.units;
 
+import defensesystemproject.controller.MainController;
+
 
 
     
@@ -13,11 +15,13 @@ package defensesystemproject.units;
  */
 public class SuperDefence extends javax.swing.JFrame {
     
-    protected int ammoCount;
-    protected int soldierCount;
+    protected int ammoCount = 0;
+    protected int soldierCount = 0;
+    protected MainController mainController; // Controller එකට කතා කරන්න reference එකක්
 
-    public void setAmmoCount(int ammoCount) {
-        this.ammoCount = ammoCount;
+    // Controller එක අඳුන්වලා දෙන method එක
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     public void setSoldierCount(int soldierCount) {

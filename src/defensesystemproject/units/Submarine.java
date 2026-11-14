@@ -294,3 +294,5 @@ public class Submarine extends SuperDefence implements Observer {
             mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
         }
     }
+    
+}

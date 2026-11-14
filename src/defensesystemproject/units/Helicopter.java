@@ -60,6 +60,11 @@ public class Helicopter extends SuperDefence implements Observer {
         areaStatus.setText("Area not Cleared ");
 
         btnShoot.setText("Shoot");
+        btnShoot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShootActionPerformed(evt);
+            }
+        });
 
         btnMissile.setText("Missile Operation");
 
@@ -160,6 +165,14 @@ public class Helicopter extends SuperDefence implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
+        ammoCount--;
+        // SuperDefence එකේ තියෙන mainController එක හරහා පණිවිඩය යවනවා
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
+        }
+    }//GEN-LAST:event_btnShootActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,12 +246,5 @@ public class Helicopter extends SuperDefence implements Observer {
     public void receiveMessage(String message) {
         txtPnl.append("Command: " + message + "\n");
     }
-    
-    private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {
-        ammoCount--;
-        // SuperDefence එකේ තියෙන mainController එක හරහා පණිවිඩය යවනවා
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
-        }
-    }
+
 }

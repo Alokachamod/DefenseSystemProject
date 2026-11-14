@@ -273,7 +273,14 @@ public class MainController extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollectInfoActionPerformed
 
     public void receiveUnitMessage(String unitName, String message) {
-        textAreaTank.append(unitName + ": " + message + "\n");
+        if (unitName.equals("Tank")) {
+            textAreaTank.append(unitName + " : " + message + "\n");
+        } else if (unitName.equals("Submarine")) {
+            jTextArea4.append(unitName + " : " + message + "\n");
+        } else {
+            
+            textAreaTank.append(unitName + " : " + message + "\n");
+        }
     }
 
     public void updateGlobalAmmo(int amount) {

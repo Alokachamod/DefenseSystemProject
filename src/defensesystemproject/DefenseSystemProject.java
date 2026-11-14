@@ -5,6 +5,7 @@
 package defensesystemproject;
 
 import defensesystemproject.controller.MainController;
+import defensesystemproject.enums.Strength;
 import defensesystemproject.units.Helicopter;
 import defensesystemproject.units.Submarine;
 import defensesystemproject.units.Tank;
@@ -40,6 +41,25 @@ public class DefenseSystemProject {
         helicopter.setVisible(true);
         tank.setVisible(true);
         submarine.setVisible(true);
+        
+        helicopter.updateStrength(Strength.LOW);
+        tank.updateStrength(Strength.LOW);
+        submarine.updateStrength(Strength.LOW);
+        
+        
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+
+        
+        mainController.setLocation(0, 0);
+
+        
+        helicopter.setLocation(screenWidth - helicopter.getWidth(), 0);
+
+        tank.setLocation(0, screenHeight - tank.getHeight() - 40); 
+
+        submarine.setLocation(screenWidth - submarine.getWidth(), screenHeight - submarine.getHeight() - 40);
     }
 
 }

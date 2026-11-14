@@ -32,7 +32,7 @@ public class Tank extends SuperDefence implements Observer {
         jPanel1 = new javax.swing.JPanel();
         jSlider2 = new javax.swing.JSlider();
         jSpinner3 = new javax.swing.JSpinner();
-        jSpinner4 = new javax.swing.JSpinner();
+        AmmoSpinner = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         areaStatus = new javax.swing.JLabel();
@@ -54,6 +54,12 @@ public class Tank extends SuperDefence implements Observer {
         jSlider2.setPaintLabels(true);
         jSlider2.setPaintTicks(true);
         jSlider2.setValue(100);
+
+        AmmoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                AmmoSpinnerStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Soldier Count");
 
@@ -84,6 +90,11 @@ public class Tank extends SuperDefence implements Observer {
         txtMsg.setText("jTextField1");
 
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -116,7 +127,7 @@ public class Tank extends SuperDefence implements Observer {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(AmmoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(checkPosition))))
@@ -143,7 +154,7 @@ public class Tank extends SuperDefence implements Observer {
                     .addComponent(areaStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AmmoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnShoot)
                     .addComponent(btnMissile))
@@ -177,15 +188,30 @@ public class Tank extends SuperDefence implements Observer {
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
         ammoCount--;
-        if (mainController != null){
+        if (mainController != null) {
             mainController.receiveUnitMessage("Tank", "Shooting! Ammo left: " + ammoCount);
-        
+
         }    }//GEN-LAST:event_btnShootActionPerformed
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        if (mainController != null) {
+
+            mainController.receiveUnitMessage("Tank", txtMsg.getText());
+        }
+        txtMsg.setText("");
+    }//GEN-LAST:event_btnSendActionPerformed
+
+    private void AmmoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_AmmoSpinnerStateChanged
+        int currentAmmo = (Integer) AmmoSpinner.getValue();
+        if (mainController != null) {
+            mainController.updateGlobalAmmo(currentAmmo);
+        }
+    }//GEN-LAST:event_AmmoSpinnerStateChanged
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -197,27 +223,23 @@ public static void main(String args[]) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Tank.class  
+            java.util.logging.Logger.getLogger(Tank.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Tank.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Tank.class  
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Tank.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Tank.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Tank.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Tank.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -230,6 +252,7 @@ public static void main(String args[]) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner AmmoSpinner;
     private javax.swing.JLabel areaStatus;
     private javax.swing.JButton btnMissile;
     private javax.swing.JButton btnRedar;
@@ -243,13 +266,12 @@ public static void main(String args[]) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider2;
     private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JSpinner jSpinner4;
     private javax.swing.JTextField txtMsg;
     private javax.swing.JTextArea txtPnl;
     // End of variables declaration//GEN-END:variables
 
     @Override
-public void updateArea(boolean isClear) {
+    public void updateArea(boolean isClear) {
         if (isClear) {
             areaStatus.setText("Area Cleared");
         } else {
@@ -258,14 +280,14 @@ public void updateArea(boolean isClear) {
     }
 
     @Override
-public void updateStrength(Strength strength) {
+    public void updateStrength(Strength strength) {
         btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
         btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
         btnRotateShoot.setEnabled(strength == Strength.STRONG);
     }
 
     @Override
-public void receiveMessage(String message) {
+    public void receiveMessage(String message) {
         txtPnl.append("Command: " + message + "\n");
     }
 

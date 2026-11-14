@@ -41,7 +41,7 @@ public class Submarine extends SuperDefence implements Observer {
         jLabel2 = new javax.swing.JLabel();
         areaStatus = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
+        AmmoSpinner = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -85,6 +85,12 @@ public class Submarine extends SuperDefence implements Observer {
         areaStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         areaStatus.setText("Area Not Cleared");
 
+        AmmoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                AmmoSpinnerStateChanged(evt);
+            }
+        });
+
         jLabel4.setText("Soldier Count");
 
         jLabel5.setText("Ammo Count");
@@ -109,6 +115,11 @@ public class Submarine extends SuperDefence implements Observer {
         jScrollPane2.setViewportView(txtPnl);
 
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,7 +144,7 @@ public class Submarine extends SuperDefence implements Observer {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(AmmoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnTomahawk, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -179,7 +190,7 @@ public class Submarine extends SuperDefence implements Observer {
                         .addComponent(spinnerOxigen, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AmmoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnShoot)
                             .addComponent(jButton3))
@@ -223,6 +234,20 @@ public class Submarine extends SuperDefence implements Observer {
         }
     }//GEN-LAST:event_btnShootActionPerformed
 
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Submarine", txtMsg.getText());
+        }
+        txtMsg.setText("");
+    }//GEN-LAST:event_btnSendActionPerformed
+
+    private void AmmoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_AmmoSpinnerStateChanged
+        int currentAmmo = (Integer) AmmoSpinner.getValue();
+        if (mainController != null) {
+            mainController.updateGlobalAmmo(currentAmmo);
+        }
+    }//GEN-LAST:event_AmmoSpinnerStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -259,6 +284,7 @@ public class Submarine extends SuperDefence implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner AmmoSpinner;
     private javax.swing.JLabel areaStatus;
     private javax.swing.JButton btnSend;
     private javax.swing.JButton btnShoot;
@@ -276,7 +302,6 @@ public class Submarine extends SuperDefence implements Observer {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JComboBox<String> selectDefence;
     private javax.swing.JSlider sliderEnergy;

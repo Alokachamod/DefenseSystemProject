@@ -6,6 +6,9 @@ package defensesystemproject.controller;
 
 import defensesystemproject.enums.Strength;
 import defensesystemproject.interfaces.Observer;
+import defensesystemproject.units.Helicopter;
+import defensesystemproject.units.Submarine;
+import defensesystemproject.units.Tank;
 
 /**
  *
@@ -13,15 +16,16 @@ import defensesystemproject.interfaces.Observer;
  */
 public class MainController extends javax.swing.JFrame {
 
-    private  Observer[] observers = new Observer[3]; 
+    private Observer[] observers = new Observer[3];
     private int observerCount = 0;
+
     /**
      * Creates new form MainController
      */
     public MainController() {
         initComponents();
     }
-    
+
     public void addObserver(Observer observer) {
         if (observerCount < observers.length) {
             observers[observerCount] = observer;
@@ -59,6 +63,11 @@ public class MainController extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Soldier Count");
 
@@ -192,7 +201,7 @@ public class MainController extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void chkAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAreaActionPerformed
-       boolean isClear = chkArea.isSelected();
+        boolean isClear = chkArea.isSelected();
         for (int i = 0; i < observerCount; i++) {
             observers[i].updateArea(isClear);
         }
@@ -202,7 +211,6 @@ public class MainController extends javax.swing.JFrame {
         int pos = positionSlider.getValue();
         Strength currentStrength;
 
-        
         if (pos < 20) {
             currentStrength = Strength.LOW;
         } else if (pos < 40) {
@@ -216,11 +224,46 @@ public class MainController extends javax.swing.JFrame {
         for (int i = 0; i < observerCount; i++) {
             observers[i].updateStrength(currentStrength);
         }
-    
+
     }//GEN-LAST:event_positionSliderStateChanged
+
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        String msg = jTextArea2.getText();
+        boolean isPrivate = sendPrivate.isSelected();
+        String selectedUnit = selectorDefense.getSelectedItem().toString(); // "Helicopter", "Tank" etc.
+
+        for (int i = 0; i < observerCount; i++) {
+            Observer obs = observers[i];
+
+            if (isPrivate) {
+                // Private නම් අදාළ කෙනාට විතරක් යවනවා (instanceof භාවිතයෙන්)
+                if (selectedUnit.equals("Helicopter") && obs instanceof Helicopter) {
+                    obs.receiveMessage(msg);
+                } else if (selectedUnit.equals("Tank") && obs instanceof Tank) {
+                    obs.receiveMessage(msg);
+                } else if (selectedUnit.equals("Submarine") && obs instanceof Submarine) {
+                    obs.receiveMessage(msg);
+                }
+            } else {
+               
+                obs.receiveMessage(msg);
+            }
+        }
+        jTextArea2.setText("");
+    }//GEN-LAST:event_btnSendActionPerformed
+
+    
 
     public void receiveUnitMessage(String unitName, String message) {
         textAreaTank.append(unitName + ": " + message + "\n");
+    }
+    
+    public void updateGlobalAmmo(int amount) {
+        jLabel3.setText("Ammo Amount: " + amount);
+    }
+
+    public void updateGlobalSoldiers(int amount) {
+        jLabel1.setText("Soldier Count: " + amount);
     }
     /**
      * @param args the command line arguments
@@ -255,6 +298,7 @@ public class MainController extends javax.swing.JFrame {
                 new MainController().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

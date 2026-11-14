@@ -31,7 +31,7 @@ public class Helicopter extends SuperDefence implements Observer {
 
         jPanel1 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
-        jSpinner1 = new javax.swing.JSpinner();
+        ammoSpinner = new javax.swing.JSpinner();
         jSpinner2 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,6 +52,12 @@ public class Helicopter extends SuperDefence implements Observer {
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setValue(100);
+
+        ammoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ammoSpinnerStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Soldier Count");
 
@@ -78,6 +84,11 @@ public class Helicopter extends SuperDefence implements Observer {
         jScrollPane1.setViewportView(txtPnl);
 
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,7 +118,7 @@ public class Helicopter extends SuperDefence implements Observer {
                                 .addGap(29, 29, 29)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                                    .addComponent(ammoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
                             .addComponent(jCheckBox1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -135,7 +146,7 @@ public class Helicopter extends SuperDefence implements Observer {
                             .addComponent(areaStatus))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ammoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnShoot)
                     .addComponent(btnMissile))
@@ -168,11 +179,24 @@ public class Helicopter extends SuperDefence implements Observer {
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
         ammoCount--;
-        // SuperDefence එකේ තියෙන mainController එක හරහා පණිවිඩය යවනවා
         if (mainController != null) {
             mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
         }
     }//GEN-LAST:event_btnShootActionPerformed
+
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Helicopter", txtMsg.getText());
+        }
+        txtMsg.setText("");
+    }//GEN-LAST:event_btnSendActionPerformed
+
+    private void ammoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ammoSpinnerStateChanged
+        int currentAmmo = (Integer) ammoSpinner.getValue();
+    if (mainController != null) {
+        mainController.updateGlobalAmmo(currentAmmo);
+    }
+    }//GEN-LAST:event_ammoSpinnerStateChanged
 
     /**
      * @param args the command line arguments
@@ -210,6 +234,7 @@ public class Helicopter extends SuperDefence implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner ammoSpinner;
     private javax.swing.JLabel areaStatus;
     private javax.swing.JButton btnLaser;
     private javax.swing.JButton btnMissile;
@@ -221,7 +246,6 @@ public class Helicopter extends SuperDefence implements Observer {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTextField txtMsg;
     private javax.swing.JTextArea txtPnl;

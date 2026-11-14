@@ -93,6 +93,11 @@ public class MainController extends javax.swing.JFrame {
         sendPrivate.setText("Send Private");
 
         btnCollectInfo.setText("Collect Informations");
+        btnCollectInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCollectInfoActionPerformed(evt);
+            }
+        });
 
         chkArea.setText("Area Clear");
         chkArea.addActionListener(new java.awt.event.ActionListener() {
@@ -230,34 +235,47 @@ public class MainController extends javax.swing.JFrame {
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         String msg = jTextArea2.getText();
         boolean isPrivate = sendPrivate.isSelected();
-        String selectedUnit = selectorDefense.getSelectedItem().toString(); // "Helicopter", "Tank" etc.
+        String selectedUnit = selectorDefense.getSelectedItem().toString();
 
         for (int i = 0; i < observerCount; i++) {
             Observer obs = observers[i];
-
             if (isPrivate) {
-                // Private නම් අදාළ කෙනාට විතරක් යවනවා (instanceof භාවිතයෙන්)
-                if (selectedUnit.equals("Helicopter") && obs instanceof Helicopter) {
+                if (selectedUnit.equals("Helicopter") && obs instanceof defensesystemproject.units.Helicopter) {
                     obs.receiveMessage(msg);
-                } else if (selectedUnit.equals("Tank") && obs instanceof Tank) {
+                } else if (selectedUnit.equals("Tank") && obs instanceof defensesystemproject.units.Tank) {
                     obs.receiveMessage(msg);
-                } else if (selectedUnit.equals("Submarine") && obs instanceof Submarine) {
+                } else if (selectedUnit.equals("Submarine") && obs instanceof defensesystemproject.units.Submarine) {
                     obs.receiveMessage(msg);
                 }
             } else {
-               
                 obs.receiveMessage(msg);
             }
         }
         jTextArea2.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
 
-    
+    private void btnCollectInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectInfoActionPerformed
+        String selectedUnit = selectorDefense.getSelectedItem().toString();
+
+        for (int i = 0; i < observerCount; i++) {
+            Observer obs = observers[i];
+            if (selectedUnit.equals("Helicopter") && obs instanceof defensesystemproject.units.Helicopter) {
+                defensesystemproject.units.Helicopter h = (defensesystemproject.units.Helicopter) obs;
+                updateLabels(h.getSoldierCount(), h.getFuelAmount(), h.getAmmoCount());
+            } else if (selectedUnit.equals("Tank") && obs instanceof defensesystemproject.units.Tank) {
+                defensesystemproject.units.Tank t = (defensesystemproject.units.Tank) obs;
+                updateLabels(t.getSoldierCount(), t.getFuelAmount(), t.getAmmoCount());
+            } else if (selectedUnit.equals("Submarine") && obs instanceof defensesystemproject.units.Submarine) {
+                defensesystemproject.units.Submarine s = (defensesystemproject.units.Submarine) obs;
+                updateLabels(s.getSoldierCount(), s.getFuelAmount(), s.getAmmoCount());
+            }
+        }
+    }//GEN-LAST:event_btnCollectInfoActionPerformed
 
     public void receiveUnitMessage(String unitName, String message) {
         textAreaTank.append(unitName + ": " + message + "\n");
     }
-    
+
     public void updateGlobalAmmo(int amount) {
         jLabel3.setText("Ammo Amount: " + amount);
     }
@@ -265,6 +283,27 @@ public class MainController extends javax.swing.JFrame {
     public void updateGlobalSoldiers(int amount) {
         jLabel1.setText("Soldier Count: " + amount);
     }
+    
+    public void updateLabels(int soldiers, int fuel, int ammo) {
+        jLabel1.setText("Soldier Count : " + soldiers);
+        jLabel2.setText("Fuel Amount : " + fuel);
+        jLabel3.setText("Ammo Amount : " + ammo);
+    }
+    
+    public void updateLiveFuel(int fuel) {
+        jLabel2.setText("Fuel Amount : " + fuel);
+    }
+    
+    public void updateLiveAmmo(int ammo) {
+        jLabel3.setText("Ammo Amount : " + ammo);
+    }
+    
+    public void updateLiveSoldiers(int soldiers) {
+        jLabel1.setText("Soldier Count : " + soldiers);
+    }
+
+    
+
     /**
      * @param args the command line arguments
      */
@@ -320,4 +359,6 @@ public class MainController extends javax.swing.JFrame {
     private javax.swing.JCheckBox sendPrivate;
     private javax.swing.JTextArea textAreaTank;
     // End of variables declaration//GEN-END:variables
+
+    
 }

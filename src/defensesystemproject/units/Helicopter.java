@@ -52,10 +52,21 @@ public class Helicopter extends SuperDefence implements Observer {
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setValue(100);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
 
         ammoSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 ammoSpinnerStateChanged(evt);
+            }
+        });
+
+        jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner2StateChanged(evt);
             }
         });
 
@@ -74,10 +85,25 @@ public class Helicopter extends SuperDefence implements Observer {
         });
 
         btnMissile.setText("Missile Operation");
+        btnMissile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMissileActionPerformed(evt);
+            }
+        });
 
         btnLaser.setText("Laser Operation");
+        btnLaser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLaserActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Position");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         txtPnl.setColumns(20);
         txtPnl.setRows(5);
@@ -150,17 +176,17 @@ public class Helicopter extends SuperDefence implements Observer {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnShoot)
                     .addComponent(btnMissile))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLaser)
-                    .addComponent(jCheckBox1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jCheckBox1)
+                    .addComponent(btnLaser))
+                .addGap(7, 7, 7)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSend))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,25 +204,65 @@ public class Helicopter extends SuperDefence implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
-        ammoCount--;
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
+        if (ammoCount > 0) {
+            ammoCount--;
+            ammoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Helicopter", "Shooting! Ammo left: " + ammoCount);
+            }
         }
     }//GEN-LAST:event_btnShootActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        if (mainController != null) {
+        if (mainController != null && !txtMsg.getText().trim().isEmpty()) {
             mainController.receiveUnitMessage("Helicopter", txtMsg.getText());
+            txtMsg.setText("");
         }
-        txtMsg.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void ammoSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ammoSpinnerStateChanged
-        int currentAmmo = (Integer) ammoSpinner.getValue();
-    if (mainController != null) {
-        mainController.updateGlobalAmmo(currentAmmo);
-    }
+        ammoCount = (Integer) ammoSpinner.getValue();
+        if (mainController != null) {
+            mainController.updateLiveAmmo(ammoCount);
+        }
     }//GEN-LAST:event_ammoSpinnerStateChanged
+
+    private void btnLaserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaserActionPerformed
+        if (mainController != null) {
+            mainController.receiveUnitMessage("Helicopter", "Laser Operation Activated!");
+        }
+    }//GEN-LAST:event_btnLaserActionPerformed
+
+    private void btnMissileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMissileActionPerformed
+        if (ammoCount >= 2) {
+            ammoCount -= 2;
+            ammoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Helicopter", "Missile Launched! Ammo left: " + ammoCount);
+            }
+        }
+    }//GEN-LAST:event_btnMissileActionPerformed
+
+    boolean isPositioned;
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+         isPositioned = jCheckBox1.isSelected();
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        int fuelAmount = jSlider1.getValue();
+        if (mainController != null) {
+            mainController.updateLiveFuel(fuelAmount);
+        }
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
+        soldierCount = (Integer) jSpinner2.getValue();
+        if (mainController != null) {
+            mainController.updateLiveSoldiers(soldierCount);
+        }
+    }//GEN-LAST:event_jSpinner2StateChanged
 
     /**
      * @param args the command line arguments
@@ -262,9 +328,15 @@ public class Helicopter extends SuperDefence implements Observer {
 
     @Override
     public void updateStrength(Strength strength) {
-        btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
-        btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
-        btnLaser.setEnabled(strength == Strength.STRONG);
+        if (isPositioned) {
+            btnShoot.setEnabled(strength == Strength.MEDIUM || strength == Strength.HIGH || strength == Strength.STRONG);
+            btnMissile.setEnabled(strength == Strength.HIGH || strength == Strength.STRONG);
+            btnLaser.setEnabled(strength == Strength.STRONG);
+        } else {
+            btnShoot.setEnabled(false);
+            btnMissile.setEnabled(false);
+            btnLaser.setEnabled(false);
+        }
     }
 
     @Override

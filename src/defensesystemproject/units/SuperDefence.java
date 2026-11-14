@@ -6,20 +6,23 @@ package defensesystemproject.units;
 
 import defensesystemproject.controller.MainController;
 
-
-
-    
 /**
  *
  * @author aloka
  */
 public class SuperDefence extends javax.swing.JFrame {
-    
+
     protected int ammoCount = 0;
     protected int soldierCount = 0;
-    protected MainController mainController; // Controller එකට කතා කරන්න reference එකක්
+    protected int fuelAmount = 100;
+    protected int oxygenAmount = 100;
+    protected boolean isPositioned = false;
+    protected MainController mainController;
 
-    // Controller එක අඳුන්වලා දෙන method එක
+    public SuperDefence() {
+        initComponents();
+    }
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
@@ -27,11 +30,25 @@ public class SuperDefence extends javax.swing.JFrame {
     public void setSoldierCount(int soldierCount) {
         this.soldierCount = soldierCount;
     }
-    /**
-     * Creates new form SuperDefence
-     */
-    public SuperDefence() {
-        initComponents();
+
+    public void setAmmoCount(int ammoCount) {
+        this.ammoCount = ammoCount;
+    }
+
+    public int getAmmoCount() {
+        return ammoCount;
+    }
+
+    public int getSoldierCount() {
+        return soldierCount;
+    }
+
+    public int getFuelAmount() {
+        return fuelAmount;
+    }
+
+    public int getOxygenAmount() {
+        return oxygenAmount;
     }
 
     /**

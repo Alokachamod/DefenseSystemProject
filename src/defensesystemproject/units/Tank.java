@@ -78,6 +78,11 @@ public class Tank extends SuperDefence implements Observer {
         btnRedar.setText("Redar Operation");
 
         btnMissile.setText("Missile Operation");
+        btnMissile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMissileActionPerformed(evt);
+            }
+        });
 
         btnRotateShoot.setText("Rotate Shooting");
 
@@ -187,9 +192,13 @@ public class Tank extends SuperDefence implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShootActionPerformed
-        ammoCount--;
-        if (mainController != null) {
-            mainController.receiveUnitMessage("Tank", "Shooting! Ammo left: " + ammoCount);
+        if (ammoCount > 0) {
+            ammoCount--;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Tank", "Shooting! Ammo left: " + ammoCount);
+            }
 
         }    }//GEN-LAST:event_btnShootActionPerformed
 
@@ -207,6 +216,17 @@ public class Tank extends SuperDefence implements Observer {
             mainController.updateGlobalAmmo(currentAmmo);
         }
     }//GEN-LAST:event_AmmoSpinnerStateChanged
+
+    private void btnMissileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMissileActionPerformed
+        if (ammoCount >= 2) {
+            ammoCount -= 2;
+            AmmoSpinner.setValue(ammoCount);
+            if (mainController != null) {
+                mainController.updateLiveAmmo(ammoCount);
+                mainController.receiveUnitMessage("Tank", "Missile Launched! Ammo left: " + ammoCount);
+            }
+        }
+    }//GEN-LAST:event_btnMissileActionPerformed
 
     /**
      * @param args the command line arguments

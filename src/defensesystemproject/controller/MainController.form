@@ -193,6 +193,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Collect Informations"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCollectInfoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkArea">
           <Properties>
